@@ -71,7 +71,7 @@ jobs:
           
   deploy:
         #if: github.event.pull_request.merged == true
-        name: Post Deploy
+        name:  Deploy
         needs: build
         runs-on: ubuntu-latest
         steps:
