@@ -74,6 +74,7 @@ jobs:
         name:  Deploy
         needs: build
         runs-on: ubuntu-latest
+        environment: prod
         steps:
             - name: Run deployment scripts
               run: echo Completed Deployment 
