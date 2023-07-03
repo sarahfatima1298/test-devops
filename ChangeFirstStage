@@ -11,7 +11,7 @@ pipeline {
         }
         stage('Test') {
             steps {
-                echo "Test Step  -- Testing2  pipeliname=====  ${env.JOB_NAME}    branchName == ${env.BRANCH_NAME}"
+                echo "Test Step  -- Testing2  pipeliname=====  ${env.JOB_NAME}"
                 snDevOpsChange();
                 script {
                    number=snDevOpsGetChangeNumber (changeDetails: """{ "pipeline_name": "Mona_Scripted_Pipeline/master", "build_number": "${env.BUILD_NUMBER}", "stage_name": "Test"}""");                  
