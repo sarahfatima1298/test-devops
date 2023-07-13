@@ -55,15 +55,15 @@ jobs:
               run: |
                     cd target
                     ls -a
-                    - name: Sonarcloud Scan
-                     env:
-                         GITHUB_TOKEN: ${{ secrets.GHP_TOKEN }}  # Needed to get PR information, if any
-                         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-                     run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=devops-test-repo
+            # - name: Sonarcloud Scan
+            #  env:
+            #      GITHUB_TOKEN: ${{ secrets.GHP_TOKEN }}  # Needed to get PR information, if any
+            #      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+            #  run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=devops-test-repo
             - name: Sonar Cloud Analysis
-#               if: success() # always() failure() success()
-#               run: |                  
-#                 mvn -B verify -DskipTests org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=$SONAR_PROJECT_KEY -Dsonar.organization=$SONAR_ORG_KEY -Dsonar.host.url=$SONAR_URL -Dsonar.login=$SONAR_TOKEN
+              if: success() # always() failure() success()
+              run: >                  
+                mvn -B verify -DskipTests org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=$SONAR_PROJECT_KEY -Dsonar.organization=$SONAR_ORG_KEY -Dsonar.host.url=$SONAR_URL -Dsonar.login=$SONAR_TOKEN
               env:
                   GITHUB_TOKEN: ${{ secrets.GHP_TOKEN }}
                   SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -132,7 +132,7 @@ jobs:
                   interval: 100 # optional, default is 100
                   # The customized inputs to create change with the requested details.
                   change-request: '{
-                  "setCloseCode": "true",
+                      "setCloseCode": "true",
                       "attributes": {
                           "short_description": "Automated Software Deployment",
                           "chg_model": "adffaa9e4370211072b7f6be5bb8f2ed",
