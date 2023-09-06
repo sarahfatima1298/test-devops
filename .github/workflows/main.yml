@@ -227,6 +227,7 @@ jobs:
                   # The customized inputs to create change with the requested details.
                   change-request: '{
                       "setCloseCode": "true",
+                      "autoCloseCode":"true",
                       "attributes": {
                           "short_description": "Automated Software Deployment",
                           "description": "Automated Software Deployment.",
