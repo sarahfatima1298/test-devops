@@ -60,7 +60,8 @@ jobs:
                           "close_notes":"Testing sample close notes",
                           "test_plan": "Testing if the software was successfully deployed"
                       },
-                      "autoCloseChange": true
+                      "autoCloseChange": true,
+                      "setCloseCode":true
                   }'
 #             - name: Run deployment scripts
 #               run: echo Completed Deployment
