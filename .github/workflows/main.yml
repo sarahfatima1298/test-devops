@@ -32,132 +32,132 @@ jobs:
                   path: ~/.m2
                   key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
                   restore-keys: ${{ runner.os }}-m2
-    test:
-        #if: github.event.pull_request.merged == true
-        name: Test
-        needs: build
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v2
-              with:
-                  fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-            - name: List current directory
-              run: ls -a
-            - name: Run Tests with Maven
-              run: mvn -B test --file pom.xml
-            # run: |
-            #       ls -l
-            # mvn clean test
-            # run: mvn test
-            # mvn -B test --file ./devops-test-repo/pom.xml
-            - name: What's in the target directory
-              run: |
-                    cd target
-                    ls -a
-            # - name: Sonarcloud Scan
-            #  env:
-            #      GITHUB_TOKEN: ${{ secrets.GHP_TOKEN }}  # Needed to get PR information, if any
-            #      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-            #  run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=devops-test-repo
-            - name: Sonar Cloud Analysis
-              if: success() # always() failure() success()
-              run: >                  
-                mvn -B verify -DskipTests org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=$SONAR_PROJECT_KEY -Dsonar.organization=$SONAR_ORG_KEY -Dsonar.host.url=$SONAR_URL -Dsonar.login=$SONAR_TOKEN
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GHP_TOKEN }}
-                  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-                  SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
-                  SONAR_URL: ${{ secrets.SONAR_URL }}
-                  SONAR_ORG_KEY: ${{ secrets.SONAR_ORG_KEY }}
-#place sonar here
-            #- name: Run JUnit Tests
-            #  run: mvn test -Dmaven.test.failure.ignore=true surefire-report:report
-            - name: ServiceNow DevOps Unit Test Results
-            # You may pin to the exact commit or the version.
-            # uses: ServiceNow/servicenow-devops-test-report@6c7ef85f6aedfb7ab17e4d17c52c14c5f2f455fd
-              uses: ServiceNow/servicenow-devops-test-report@main
-              with:
-                  # Devops Integration User Name
-                  devops-integration-user-name: ${{ secrets.SN_DEVOPS_USER }}
-                  # Devops Integration User Password
-                  devops-integration-user-password: ${{ secrets.SN_DEVOPS_PASSWORD }}
-                  # ServiceNow Instance Name
-                  instance-url: ${{ secrets.SN_INSTANCE_URL }}
-                  # Orchestration Tool Id
-                  tool-id: ${{ secrets.SN_ORCHESTRATION_TOOL_ID }}
-                  # Job Name
-                  job-name: 'Test' # Should be same name as declared in 'name' clause of the current Stage
-                  # Github Context
-                  context-github: ${{ toJSON(github) }}
-                  # JUnit xml report file name with path
-                  xml-report-filename: target/surefire-reports/testng-results.xml # if only JUnit tests, use target/surefire-reports/testng-results.xml
-                                                                                  # if both JUnit & TestNG tests, use target/surefire-reports/testng-junit-results/testng-results.xml
-                  # GitHub Custom Action
-                  test-type: # optional, default is JUnit
-            - name: ServiceNow DevOps Sonar Scan Results
-              uses: ServiceNow/servicenow-devops-sonar@v1.34.2
-              with:
-                devops-integration-user-name: ${{ secrets.SN_DEVOPS_USER }}
-                devops-integration-user-password: ${{ secrets.SN_DEVOPS_PASSWORD }}
-                instance-url: ${{ secrets.SN_INSTANCE_URL }}
-                tool-id: ${{ secrets.SN_ORCHESTRATION_TOOL_ID }}
-                context-github: ${{ toJSON(github) }}
-                job-name: 'Build'
-                sonar-host-url: ${{ secrets.SONAR_URL }}
-                sonar-project-key: ${{ secrets.SONAR_PROJECT_KEY }}   
-    SonarTest:
-         name: Sonar stage
-         needs: test 
-         runs-on: ubuntu-latest
-         steps:
-            - name: Run deployment scripts
-              run: echo Completed Deployment
+    # test:
+    #     #if: github.event.pull_request.merged == true
+    #     name: Test
+    #     needs: build
+    #     runs-on: ubuntu-latest
+    #     steps:
+    #         - uses: actions/checkout@v2
+    #           with:
+    #               fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+    #         - name: List current directory
+    #           run: ls -a
+    #         - name: Run Tests with Maven
+    #           run: mvn -B test --file pom.xml
+    #         # run: |
+    #         #       ls -l
+    #         # mvn clean test
+    #         # run: mvn test
+    #         # mvn -B test --file ./devops-test-repo/pom.xml
+    #         - name: What's in the target directory
+    #           run: |
+    #                 cd target
+    #                 ls -a
+    #         # - name: Sonarcloud Scan
+    #         #  env:
+    #         #      GITHUB_TOKEN: ${{ secrets.GHP_TOKEN }}  # Needed to get PR information, if any
+    #         #      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    #         #  run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=devops-test-repo
+    #         - name: Sonar Cloud Analysis
+    #           if: success() # always() failure() success()
+    #           run: >                  
+    #             mvn -B verify -DskipTests org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=$SONAR_PROJECT_KEY -Dsonar.organization=$SONAR_ORG_KEY -Dsonar.host.url=$SONAR_URL -Dsonar.login=$SONAR_TOKEN
+              # env:
+              #     GITHUB_TOKEN: ${{ secrets.GHP_TOKEN }}
+              #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+              #     SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
+              #     SONAR_URL: ${{ secrets.SONAR_URL }}
+              #     SONAR_ORG_KEY: ${{ secrets.SONAR_ORG_KEY }}
+# #place sonar here
+#             #- name: Run JUnit Tests
+#             #  run: mvn test -Dmaven.test.failure.ignore=true surefire-report:report
+#             - name: ServiceNow DevOps Unit Test Results
+#             # You may pin to the exact commit or the version.
+#             # uses: ServiceNow/servicenow-devops-test-report@6c7ef85f6aedfb7ab17e4d17c52c14c5f2f455fd
+#               uses: ServiceNow/servicenow-devops-test-report@main
+#               with:
+#                   # Devops Integration User Name
+#                   devops-integration-user-name: ${{ secrets.SN_DEVOPS_USER }}
+#                   # Devops Integration User Password
+#                   devops-integration-user-password: ${{ secrets.SN_DEVOPS_PASSWORD }}
+#                   # ServiceNow Instance Name
+#                   instance-url: ${{ secrets.SN_INSTANCE_URL }}
+#                   # Orchestration Tool Id
+#                   tool-id: ${{ secrets.SN_ORCHESTRATION_TOOL_ID }}
+#                   # Job Name
+#                   job-name: 'Test' # Should be same name as declared in 'name' clause of the current Stage
+#                   # Github Context
+#                   context-github: ${{ toJSON(github) }}
+#                   # JUnit xml report file name with path
+#                   xml-report-filename: target/surefire-reports/testng-results.xml # if only JUnit tests, use target/surefire-reports/testng-results.xml
+#                                                                                   # if both JUnit & TestNG tests, use target/surefire-reports/testng-junit-results/testng-results.xml
+#                   # GitHub Custom Action
+#                   test-type: # optional, default is JUnit
+          #  - name: ServiceNow DevOps Sonar Scan Results
+          #    uses: ServiceNow/servicenow-devops-sonar@v1.34.2
+    #           with:
+    #             devops-integration-user-name: ${{ secrets.SN_DEVOPS_USER }}
+    #             devops-integration-user-password: ${{ secrets.SN_DEVOPS_PASSWORD }}
+    #             instance-url: ${{ secrets.SN_INSTANCE_URL }}
+    #             tool-id: ${{ secrets.SN_ORCHESTRATION_TOOL_ID }}
+    #             context-github: ${{ toJSON(github) }}
+    #             job-name: 'Build'
+    #             sonar-host-url: ${{ secrets.SONAR_URL }}
+    #             sonar-project-key: ${{ secrets.SONAR_PROJECT_KEY }}   
+    # SonarTest:
+    #      name: Sonar stage
+    #      needs: test 
+    #      runs-on: ubuntu-latest
+    #      steps:
+    #         - name: Run deployment scripts
+    #           run: echo Completed Deployment
               
-    integrationTest:
-        #if: github.event.pull_request.merged == true
-        name: Integration Tests
-        needs: SonarTest
-        runs-on: ubuntu-latest
-        steps:
-            - name: ServiceNow DevOps Register Artifact
-            # You may pin to the exact commit or the version.
-            # uses: ServiceNow/servicenow-devops-register-artifact@6312802fd9eecd4a57b13216e968b8cae4ff6fe4
-              uses: ServiceNow/servicenow-devops-register-artifact@main
-              with:
-                  # Devops Integration User Name
-                  devops-integration-user-name: ${{ secrets.SN_DEVOPS_USER }}
-                  # Devops Integration User Password
-                  devops-integration-user-password: ${{ secrets.SN_DEVOPS_PASSWORD }}
-                  # ServiceNow Instance URL
-                  instance-url: ${{ secrets.SN_INSTANCE_URL }}
-                  # Orchestration Tool Id
-                  tool-id: ${{ secrets.SN_ORCHESTRATION_TOOL_ID }}
-                  # Display Name of the Job
-                  job-name: 'Integration Tests'
-                  # Github Context
-                  context-github: ${{ toJSON(github) }}
+    # integrationTest:
+    #     #if: github.event.pull_request.merged == true
+    #     name: Integration Tests
+    #     needs: SonarTest
+    #     runs-on: ubuntu-latest
+    #     steps:
+    #         - name: ServiceNow DevOps Register Artifact
+    #         # You may pin to the exact commit or the version.
+    #         # uses: ServiceNow/servicenow-devops-register-artifact@6312802fd9eecd4a57b13216e968b8cae4ff6fe4
+    #           uses: ServiceNow/servicenow-devops-register-artifact@main
+    #           with:
+    #               # Devops Integration User Name
+    #               devops-integration-user-name: ${{ secrets.SN_DEVOPS_USER }}
+    #               # Devops Integration User Password
+    #               devops-integration-user-password: ${{ secrets.SN_DEVOPS_PASSWORD }}
+    #               # ServiceNow Instance URL
+    #               instance-url: ${{ secrets.SN_INSTANCE_URL }}
+    #               # Orchestration Tool Id
+    #               tool-id: ${{ secrets.SN_ORCHESTRATION_TOOL_ID }}
+    #               # Display Name of the Job
+                  # job-name: 'Integration Tests'
+                  # # Github Context
+                  # context-github: ${{ toJSON(github) }}
                   # List of Artifacts to be registered
-                  artifacts: '[
-                       {
-                          "name": "app-devops.jar",
-                          "version": "1.${{ github.run_number }}",
-                          "semanticVersion": "1.${{ github.run_number }}.0",
-                          "repositoryName": "${{ github.repository }}"
-                       },
-                       {
-                          "name": "app-devops-integrations.jar",
-                          "version": "1.${{ github.run_number }}",
-                          "semanticVersion": "1.${{ github.run_number }}.0",
-                          "repositoryName": "${{ github.repository }}"
-                       },
-                       {
-                          "name": "app-devops-workspace.jar",
-                          "version": "1.${{ github.run_number }}",
-                          "semanticVersion": "1.${{ github.run_number }}.0",
-                          "repositoryName": "${{ github.repository }}"
-                       }
-               ]'
-            - name: ServiceNow DevOps Register Package
+            #       artifacts: '[
+            #            {
+            #               "name": "app-devops.jar",
+            #               "version": "1.${{ github.run_number }}",
+            #               "semanticVersion": "1.${{ github.run_number }}.0",
+            #               "repositoryName": "${{ github.repository }}"
+            #            },
+            #            {
+            #               "name": "app-devops-integrations.jar",
+            #               "version": "1.${{ github.run_number }}",
+            #               "semanticVersion": "1.${{ github.run_number }}.0",
+            #               "repositoryName": "${{ github.repository }}"
+            #            },
+            #            {
+            #               "name": "app-devops-workspace.jar",
+            #               "version": "1.${{ github.run_number }}",
+            #               "semanticVersion": "1.${{ github.run_number }}.0",
+            #               "repositoryName": "${{ github.repository }}"
+            #            }
+            #    ]'
+            # - name: ServiceNow DevOps Register Package
             # You may pin to the exact commit or the version.
             # uses: ServiceNow/servicenow-devops-register-package@96a351e6f06e592011b9bdd7da5b2af26506d86b
               uses: ServiceNow/servicenow-devops-register-package@main
@@ -173,30 +173,30 @@ jobs:
                   # Github Context
                   context-github: ${{ toJSON(github) }}
                   # List of Artifacts in JSON format
-                  artifacts: '[
-                      {
-                          "name": "app-devops.jar",
-                          "version": "1.${{ github.run_number }}",
-                          "semanticVersion": "1.${{ github.run_number }}.0",
-                          "repositoryName": "${{ github.repository }}"
-                      },
-                      {
-                          "name": "app-devops-integrations.jar",
-                          "version": "1.${{ github.run_number }}",
-                          "semanticVersion": "1.${{ github.run_number }}.0",
-                          "repositoryName": "${{ github.repository }}"
-                      },
-                      {
-                          "name": "app-devops-workspace.jar",
-                          "version": "1.${{ github.run_number }}",
-                          "semanticVersion": "1.${{ github.run_number }}.0",
-                          "repositoryName": "${{ github.repository }}"
-                      }
-                  ]'
+                  # artifacts: '[
+                  #     {
+                  #         "name": "app-devops.jar",
+                  #         "version": "1.${{ github.run_number }}",
+                  #         "semanticVersion": "1.${{ github.run_number }}.0",
+                  #         "repositoryName": "${{ github.repository }}"
+                  #     },
+                  #     {
+                  #         "name": "app-devops-integrations.jar",
+                  #         "version": "1.${{ github.run_number }}",
+                  #         "semanticVersion": "1.${{ github.run_number }}.0",
+                  #         "repositoryName": "${{ github.repository }}"
+                  #     },
+                  #     {
+                  #         "name": "app-devops-workspace.jar",
+                  #         "version": "1.${{ github.run_number }}",
+                  #         "semanticVersion": "1.${{ github.run_number }}.0",
+                  #         "repositoryName": "${{ github.repository }}"
+                  #     }
+                  # ]'
                   # Name of the Package that contains list of artifacts
-                  package-name: 'app-devops-change-velocity.war'
-                  # Display Name of Job
-                  job-name: 'Integration Tests'
+                  # package-name: 'app-devops-change-velocity.war'
+                  # # Display Name of Job
+                  # job-name: 'Integration Tests'
     deploy:
         #if: github.event.pull_request.merged == true
         name: Deploy
@@ -226,8 +226,6 @@ jobs:
                   interval: 100 # optional, default is 100
                   # The customized inputs to create change with the requested details.
                   change-request: '{
-
-                      "autoCloseChange": true,
                       "attributes": {
                           "short_description": "Automated Software Deployment",
                           "description": "Automated Software Deployment.",
@@ -236,15 +234,16 @@ jobs:
                           "backout_plan": "When software fails in production, the previous software release will be re-deployed.",
                           "close_notes":"Testing sample close notes",
                           "test_plan": "Testing if the software was successfully deployed"
-                      }
+                      },
+                      "autoCloseChange": true
                   }'
 #             - name: Run deployment scripts
 #               run: echo Completed Deployment
-    postdeploy:
-        #if: github.event.pull_request.merged == true
-        name: Post Deploy
-        needs: deploy
-        runs-on: ubuntu-latest
-        steps:
-            - name: Run deployment scripts
+    # postdeploy:
+    #     #if: github.event.pull_request.merged == true
+    #     name: Post Deploy
+    #     needs: deploy
+    #     runs-on: ubuntu-latest
+    #     steps:
+    #         - name: Run deployment scripts
               run: echo Completed Deployment
