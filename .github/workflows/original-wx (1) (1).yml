@@ -37,7 +37,17 @@ jobs:
           tool-id: '30008a6c93ddf110e0e83cb19dba10ff'
           context-github: ${{ toJSON(github) }}
           job-name: 'Build (${{ matrix.environments.environment }}, ${{ matrix.environments.project_number }}, ${{ matrix.node-version }})'
-          change-request: '{"setCloseCode": "true","attributes": {"short_description": "${{ github.workflow }}-${{ github.run_number }}","description": "Automated Software Deployment. ${{ github.event.inputs.tag }}","assignment_group": "cfcbad03d711110050f5edcb9e61038f","assigned_to": {"email": "ashley@lonnon.net"},"implementation_plan": "Software update is tested and results can be found in Test Summaries Tab; When the change is approved the implementation happens automated by the CICD pipeline within the change planned start and end time window.","backout_plan": "When software fails in production, the previous software release will be re-deployed.","test_plan": "Testing if the software was successfully deployed"}}'
+                      change-request: '{
+                      "setCloseCode":true,
+                      "attributes": {
+                          "short_description": "Automated Software Deployment",
+                          "description": "Automated Software Deployment.",
+                          "assignment_group": "a715cd759f2002002920bde8132e7018",
+                          "implementation_plan": "Software update is tested and results can be found in Test Summaries Tab.",
+                          "backout_plan": "When software fails in production, the previous software release will be re-deployed.",
+                          "close_notes":"Testing sample close notes",
+                          "test_plan": "Testing if the software was successfully deployed"
+                      }
           interval: '100'
           timeout: '3600'
           changeCreationTimeOut: '3600'
