@@ -37,8 +37,8 @@ jobs:
           tool-id: '30008a6c93ddf110e0e83cb19dba10ff'
           context-github: ${{ toJSON(github) }}
           job-name: 'Build (${{ matrix.environments.environment }}, ${{ matrix.environments.project_number }}, ${{ matrix.node-version }})'
-                      change-request: '{
-                      "setCloseCode":true,
+                    change-request: '{
+                     "setCloseCode":true,
                       "attributes": {
                           "short_description": "Automated Software Deployment",
                           "description": "Automated Software Deployment.",
@@ -48,6 +48,8 @@ jobs:
                           "close_notes":"Testing sample close notes",
                           "test_plan": "Testing if the software was successfully deployed"
                       }
+                   
+                  }'
           interval: '100'
           timeout: '3600'
           changeCreationTimeOut: '3600'
