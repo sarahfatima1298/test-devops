@@ -37,7 +37,7 @@ jobs:
           tool-id: '30008a6c93ddf110e0e83cb19dba10ff'
           context-github: ${{ toJSON(github) }}
           job-name: 'Build (${{ matrix.environments.environment }}, ${{ matrix.environments.project_number }}, ${{ matrix.node-version }})'
-                    change-request: '{
+                   change-request: '{
                      "setCloseCode":true,
                       "attributes": {
                           "short_description": "Automated Software Deployment",
