@@ -102,7 +102,6 @@ jobs:
          steps:
             - name: Run deployment scripts
               run: echo Completed Deployment
-
     
     integrationTest:
     needs: SonarTest
