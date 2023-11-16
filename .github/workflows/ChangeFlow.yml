@@ -112,7 +112,7 @@ jobs:
             - name: ServiceNow DevOps Change Automation
             # You may pin to the exact commit or the version.
             # uses: ServiceNow/servicenow-devops-change@0f57435999463cc1dea44bde4f5eca9879474b85
-              uses: ServiceNow/servicenow-devops-change@dev
+              uses: ServiceNow/servicenow-devops-change@main
               with:
                   # ServiceNow Instance URL
                   instance-url: ${{ secrets.SN_INSTANCE_URL }}
@@ -132,7 +132,7 @@ jobs:
                   interval: 100 # optional, default is 100
                   # The customized inputs to create change with the requested details.
                   change-request: '{
-                      "setCloseCode": "true",
+                     "setCloseCode": "true",
                       "attributes": {
                           "short_description": "Automated test Software Deployment",
                           "chg_model": "adffaa9e4370211072b7f6be5bb8f2ed",
