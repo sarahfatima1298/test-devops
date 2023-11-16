@@ -104,7 +104,6 @@ jobs:
               run: echo Completed Deployment
     
     integrationTest:
-    needs: SonarTest
     name: Integration Tests
     runs-on: ubuntu-latest
     steps:  
