@@ -78,7 +78,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Register Artifact
-        uses: ServiceNow/servicenow-devops-register-artifact@main
+        uses: ServiceNow/servicenow-devops-register-artifact@dev
         with:
           devops-integration-user-name: '${{ secrets.SN_DEVOPS_USER }}'
           devops-integration-user-password: '${{ secrets.SN_DEVOPS_PASSWORD }}'
@@ -88,7 +88,7 @@ jobs:
           job-name: Integration Tests
           artifacts: ' [{"name": "com:autoclaim","version": "1.${{ github.run_number }}","semanticVersion": "1.${{ github.run_number }}.0","repositoryName": "${{ github.repository }}"}]'
       - name: Register Package
-        uses: ServiceNow/servicenow-devops-register-package@main
+        uses: ServiceNow/servicenow-devops-register-package@dev
         with:
           devops-integration-user-name: '${{ secrets.SN_DEVOPS_USER }}'
           devops-integration-user-password: '${{ secrets.SN_DEVOPS_PASSWORD }}'
@@ -104,7 +104,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: ServiceNow DevOps Change Automation
-        uses: ServiceNow/servicenow-devops-change@main
+        uses: ServiceNow/servicenow-devops-change@dev
         with:
           instance-url: '${{ secrets.SN_INSTANCE_URL }}'
           devops-integration-user-name: '${{ secrets.SN_DEVOPS_USER }}'
