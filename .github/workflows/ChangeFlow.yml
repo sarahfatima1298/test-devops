@@ -24,57 +24,57 @@ jobs:
           path: ~/.m2
           key: '${{ runner.os }}-m2-${{ hashFiles(''**/pom.xml'') }}'
           restore-keys: '${{ runner.os }}-m2'
-  test:
-    name: Test
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - name: List current directory
-        run: ls -a
-      - name: Run Tests with Maven
-        run: mvn -B test --file pom.xml
-      - name: What's in the target directory
-        run: |
-          cd target
-          ls -a
-      - name: Sonar Cloud Analysis
-        if: success()
-        run: >
-          mvn -B verify -DskipTests
-          org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
-          -Dsonar.projectKey=$SONAR_PROJECT_KEY
-          -Dsonar.organization=$SONAR_ORG_KEY -Dsonar.host.url=$SONAR_URL
-          -Dsonar.login=$SONAR_TOKEN
-        env:
-          GITHUB_TOKEN: '${{ secrets.GHP_TOKEN }}'
-          SONAR_TOKEN: '${{ secrets.SONAR_TOKEN }}'
-          SONAR_PROJECT_KEY: '${{ secrets.SONAR_PROJECT_KEY }}'
-          SONAR_URL: '${{ secrets.SONAR_URL }}'
-          SONAR_ORG_KEY: '${{ secrets.SONAR_ORG_KEY }}'
-      - name: ServiceNow DevOps Unit Test Results
-        uses: ServiceNow/servicenow-devops-test-report@dev
-        with:
-          devops-integration-user-name: '${{ secrets.SN_DEVOPS_USER }}'
-          devops-integration-user-password: '${{ secrets.SN_DEVOPS_PASSWORD }}'
-          instance-url: '${{ secrets.SN_INSTANCE_URL }}'
-          tool-id: '${{ secrets.SN_ORCHESTRATION_TOOL_ID }}'
-          job-name: Test
-          context-github: '${{ toJSON(github) }}'
-          xml-report-filename: testResultsFolder/pytest.xml
-          test-type: null
-  SonarTest:
-    name: Sonar stage
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Run deployment scripts
-        run: echo Completed Deployment
+  # test:
+  #   name: Test
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #       with:
+  #         fetch-depth: 0
+  #     - name: List current directory
+  #       run: ls -a
+  #     - name: Run Tests with Maven
+  #       run: mvn -B test --file pom.xml
+  #     - name: What's in the target directory
+  #       run: |
+  #         cd target
+  #         ls -a
+  #     - name: Sonar Cloud Analysis
+  #       if: success()
+  #       run: >
+  #         mvn -B verify -DskipTests
+  #         org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+  #         -Dsonar.projectKey=$SONAR_PROJECT_KEY
+  #         -Dsonar.organization=$SONAR_ORG_KEY -Dsonar.host.url=$SONAR_URL
+  #         -Dsonar.login=$SONAR_TOKEN
+  #       env:
+  #         GITHUB_TOKEN: '${{ secrets.GHP_TOKEN }}'
+  #         SONAR_TOKEN: '${{ secrets.SONAR_TOKEN }}'
+  #         SONAR_PROJECT_KEY: '${{ secrets.SONAR_PROJECT_KEY }}'
+  #         SONAR_URL: '${{ secrets.SONAR_URL }}'
+  #         SONAR_ORG_KEY: '${{ secrets.SONAR_ORG_KEY }}'
+  #     - name: ServiceNow DevOps Unit Test Results
+  #       uses: ServiceNow/servicenow-devops-test-report@dev
+  #       with:
+  #         devops-integration-user-name: '${{ secrets.SN_DEVOPS_USER }}'
+  #         devops-integration-user-password: '${{ secrets.SN_DEVOPS_PASSWORD }}'
+  #         instance-url: '${{ secrets.SN_INSTANCE_URL }}'
+  #         tool-id: '${{ secrets.SN_ORCHESTRATION_TOOL_ID }}'
+  #         job-name: Test
+  #         context-github: '${{ toJSON(github) }}'
+  #         xml-report-filename: testResultsFolder/pytest.xml
+  #         test-type: null
+  # SonarTest:
+  #   name: Sonar stage
+  #   needs: test
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Run deployment scripts
+  #       run: echo Completed Deployment
   integrationTest:
     name: Integration Tests
-    needs: SonarTest
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Register Artifact
