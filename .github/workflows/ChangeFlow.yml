@@ -54,17 +54,17 @@ jobs:
           SONAR_PROJECT_KEY: '${{ secrets.SONAR_PROJECT_KEY }}'
           SONAR_URL: '${{ secrets.SONAR_URL }}'
           SONAR_ORG_KEY: '${{ secrets.SONAR_ORG_KEY }}'
-      # - name: ServiceNow DevOps Unit Test Results
-      #   uses: ServiceNow/servicenow-devops-test-report@dev
-      #   with:
-      #     devops-integration-user-name: '${{ secrets.SN_DEVOPS_USER }}'
-      #     devops-integration-user-password: '${{ secrets.SN_DEVOPS_PASSWORD }}'
-      #     instance-url: '${{ secrets.SN_INSTANCE_URL }}'
-      #     tool-id: '${{ secrets.SN_ORCHESTRATION_TOOL_ID }}'
-      #     job-name: Test
-      #     context-github: '${{ toJSON(github) }}'
-      #     xml-report-filename: testResultsFolder/pytest.xml
-      #     test-type: JUnit
+      - name: ServiceNow DevOps Unit Test Results
+        uses: ServiceNow/servicenow-devops-test-report@dev
+        with:
+          devops-integration-user-name: '${{ secrets.SN_DEVOPS_USER }}'
+          devops-integration-user-password: '${{ secrets.SN_DEVOPS_PASSWORD }}'
+          instance-url: '${{ secrets.SN_INSTANCE_URL }}'
+          tool-id: '${{ secrets.SN_ORCHESTRATION_TOOL_ID }}'
+          job-name: Test
+          context-github: '${{ toJSON(github) }}'
+          xml-report-filename: testResultsFolder/pytest.xml
+          test-type: JUnit
   SonarTest:
     name: Sonar stage
     needs: test
