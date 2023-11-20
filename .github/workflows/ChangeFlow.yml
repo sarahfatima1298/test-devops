@@ -64,7 +64,7 @@ jobs:
           job-name: Test
           context-github: '${{ toJSON(github) }}'
           xml-report-filename: testResultsFolder/pytest.xml
-          test-type: null
+          test-type: JUnit
   SonarTest:
     name: Sonar stage
     needs: test
