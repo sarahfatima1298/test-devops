@@ -74,7 +74,7 @@ jobs:
         run: echo Completed Deployment
   integrationTest:
     name: Integration Tests
-    needs: build
+    needs: SonarTest
     runs-on: ubuntu-latest
     steps:
       - name: Register Artifact
@@ -100,7 +100,7 @@ jobs:
           package-name: autoclaim.war
   deploy:
     name: Deploy
-    needs: build
+    needs: integrationTest
     runs-on: ubuntu-latest
     steps:
       - name: ServiceNow DevOps Change Automation
