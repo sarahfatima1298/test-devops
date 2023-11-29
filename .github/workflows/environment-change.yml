@@ -40,7 +40,7 @@ jobs:
           tool-id: '${{ secrets.SN_ORCH_TOOL_ID }}'
           job-name: Test
           context-github: '${{ toJSON(github) }}'
-          xml-report-filename: JestFolder/jest-junit.xml
+          xml-report-filename: .github/workflows/JestFolder/jest-junit.xml
 
       - name: ServiceNow DevOps NUnit Test Results
         uses: ServiceNow/servicenow-devops-test-report@EPIC1076738
@@ -54,7 +54,7 @@ jobs:
                   # Github Context
                   context-github: ${{ toJSON(github) }}
                   # XUnit xml report file name with path
-                  xml-report-filename: NunitFolder/NUnit.xml   
+                  xml-report-filename: .github/workflows/NunitFolder/NUnit.xml  
   integrationTest:
     needs: build
     name: Integration Tests
