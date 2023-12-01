@@ -1,3 +1,4 @@
+def changeRequestNumber = "null"
 pipeline {
    agent any
    tools {
