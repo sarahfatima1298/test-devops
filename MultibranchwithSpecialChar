@@ -16,7 +16,7 @@ pipeline {
                         changeRequestNumber = snDevOpsGetChangeNumber (changeDetails: """{ "pipeline_name": "${env.JOB_NAME}", "build_number": "${env.BUILD_NUMBER}", "stage_name": "${env.STAGE_NAME}" }""");
                         echo "${changeRequestNumber}"
 
-changeRequestNumber1 = snDevOpsGetChangeNumber (changeDetails: """{ "pipeline_name":"${env.JOB_NAME}", "build_number": "${env.BUILD_NUMBER}", "stage_name": "prod/${env.STAGE_NAME}""");
+changeRequestNumber1 = snDevOpsGetChangeNumber (changeDetails: """{ "pipeline_name":"${env.JOB_NAME}", "build_number": "${env.BUILD_NUMBER}", "stage_name": "prod/${env.STAGE_NAME}"}""");
                         echo "${changeRequestNumber1}"
                     }
                }      
@@ -25,6 +25,5 @@ changeRequestNumber1 = snDevOpsGetChangeNumber (changeDetails: """{ "pipeline_na
  
 }     
  
-}
 }
 }
