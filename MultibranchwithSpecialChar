@@ -12,8 +12,8 @@ pipeline {
                     steps {
                         script{
                         snDevOpsChange changeRequestDetails: '{ "attributes": {"chg_model": "adffaa9e4370211072b7f6be5bb8f2ed"}}'
-                        //stageName = "Deploy"
-                        changeRequestNumber = snDevOpsGetChangeNumber(changeDetails: """{"build_number":"${env.BUILD_NUMBER}"}""")
+                        // stageName = "Deploy"
+                        changeRequestNumber = snDevOpsGetChangeNumber (changeDetails: """{ "pipeline_name": "github_multi_branch_pipeline/scratch/release", "build_number": "${env.BUILD_NUMBER}", "stage_name": "Deploy", "branch_name": "scratch/release" }""");
                         echo "${changeRequestNumber}"
                     }
                }      
