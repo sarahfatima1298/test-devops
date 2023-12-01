@@ -6,13 +6,13 @@ pipeline {
  
     }
   stages {
-        stage(‘prod’) {
+        stage('prod') {
             stages {
                 stage('deploy') {
                     steps {
                         
                         snDevOpsChange changeRequestDetails: '{ "attributes": {"chg_model": "adffaa9e4370211072b7f6be5bb8f2ed"}}'
-                                      stageName = "Deploy"
+                        stageName = "Deploy"
                         changeRequestNumber = snDevOpsGetChangeNumber(changeDetails: """{"build_number":"${env.BUILD_NUMBER}"}""")
                         echo "${changeRequestNumber}"
                     }
