@@ -13,8 +13,11 @@ pipeline {
                         script{
                         snDevOpsChange changeRequestDetails: '{ "attributes": {"chg_model": "adffaa9e4370211072b7f6be5bb8f2ed"}}'
                         // stageName = "Deploy"
-                        changeRequestNumber = snDevOpsGetChangeNumber (changeDetails: """{ "pipeline_name": "github_multi_branch_pipeline/scratch/release", "build_number": "${env.BUILD_NUMBER}", "stage_name": "Deploy", "branch_name": "scratch/release" }""");
+                        changeRequestNumber = snDevOpsGetChangeNumber (changeDetails: """{ "pipeline_name": "${env.JOB_NAME}", "build_number": "${env.BUILD_NUMBER}", "stage_name": "${env.STAGE_NAME}" }""");
                         echo "${changeRequestNumber}"
+
+changeRequestNumber1 = snDevOpsGetChangeNumber (changeDetails: """{ "pipeline_name":"${env.JOB_NAME}", "build_number": "${env.BUILD_NUMBER}", "stage_name": "prod/${env.STAGE_NAME}""");
+                        echo "${changeRequestNumber1}"
                     }
                }      
             }
