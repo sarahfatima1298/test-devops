@@ -117,7 +117,7 @@ jobs:
       - name: ServiceNow DevOps Change Automation
         uses: ServiceNow/servicenow-devops-change@dev
         with:
-          instance-url: '${{ secrets.SN_INSTANCE_URL }}'
+          instance-url: '${{ secrets.SN_INSTANCE_NAME }}'
           devops-integration-user-name: '${{ secrets.SN_DEVOPS_USER }}'
           devops-integration-user-password: '${{ secrets.SN_DEVOPS_PASSWORD }}'
           tool-id: '${{ secrets.SN_ORCHESTRATION_TOOL_ID }}'
