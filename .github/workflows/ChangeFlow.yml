@@ -84,7 +84,7 @@ jobs:
   #     - name: Run deployment scripts
   #       run: echo Completed Deployment
   integrationTest:
-    name: Integration Tests
+    name: IntegrationTests
     needs: test
     runs-on: ubuntu-latest
     steps:
@@ -106,7 +106,7 @@ jobs:
           instance-url: '${{ secrets.SN_INSTANCE_URL }}'
           tool-id: '${{ secrets.SN_ORCHESTRATION_TOOL_ID }}'
           context-github: '${{ toJSON(github) }}'
-          job-name: Integration Tests
+          job-name: IntegrationTests
           artifacts: ' [{"name": "com:autoclaim","version": "1.${{ github.run_number }}","semanticVersion": "1.${{ github.run_number }}.0","repositoryName": "${{ github.repository }}"}]'
           package-name: autoclaim.war
   deploy:
