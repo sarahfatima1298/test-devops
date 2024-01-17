@@ -5,7 +5,7 @@ jobs:
   #   name: IntegrationTests
   #   runs-on: ubuntu-latest
   #   steps:
-  #     - name: Register Artifact
+  #     - name: Register Test Artifact
   #       uses: ServiceNow/servicenow-devops-register-artifact@dev
   #       with:
   #         devops-integration-user-name: '${{ secrets.SN_DEVOPS_USER }}'
