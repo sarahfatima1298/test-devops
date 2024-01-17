@@ -1,0 +1,29 @@
+name: GitHub Change Workflow with SNOW custom tasks
+'on': workflow_dispatch
+jobs:
+ deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: ServiceNow DevOps Change Automation
+        uses: ServiceNow/servicenow-devops-change@dev
+        with:
+          instance-url: '${{ secrets.SN_INSTANCE_NAME }}'
+          # devops-integration-user-name: '${{ secrets.SN_DEVOPS_USER }}'
+          # devops-integration-user-password: '${{ secrets.SN_DEVOPS_PASSWORD }}'
+          devops-integration-token: ${{ secrets.SN_INSTANCE_TOKEN }}
+          tool-id: '${{ secrets.SN_ORCHESTRATION_TOOL_ID }}'
+          job-name: Deploy
+          context-github: '${{ toJSON(github) }}'
+          timeout: 3600
+          interval: 100
+          change-request: >-
+            { "setCloseCode": "true", "attributes": { "short_description":
+            "Automated test Software Deployment", "chg_model":
+            "adffaa9e4370211072b7f6be5bb8f2ed", "description": "Automated
+            Software Deployment.", "assignment_group":
+            "a715cd759f2002002920bde8132e7018", "implementation_plan": "Software
+            update is tested and results can be found in Test Summaries Tab.",
+            "backout_plan": "When software fails in production, the previous
+            software release will be re-deployed.", "test_plan": "Testing if the
+            software was successfully deployed" } }
