@@ -28,6 +28,7 @@ jobs:
           package-name: autoclaim.war
   deploy:
     name: Deploy
+    needs: integrationTest
     runs-on: ubuntu-latest
     steps:
       - name: ServiceNow DevOps Change Automation
