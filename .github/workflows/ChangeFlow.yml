@@ -34,7 +34,7 @@ jobs:
           fetch-depth: 0
       - name: List current directory
         run: ls -a
-      - name: Run Tests with Maven
+      - name: Run Test with Maven
         run: mvn -B test --file pom.xml
       - name: What's in the target directory
         run: |
