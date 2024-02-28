@@ -110,7 +110,7 @@ jobs:
 
   sonarScan:
    name: 'Sonar Scan'
-   needs: registerArtifact
+   needs: registerPackage
    runs-on: ubuntu-latest
    steps:
    - name: Checkout
@@ -199,7 +199,7 @@ jobs:
 
   change:
     name: Change Request
-    needs: registerPackage
+    needs: ServiceNowSecurityScanResults
     runs-on: ubuntu-latest
     steps:     
       - name: ServiceNow DevOps Change Attributes
